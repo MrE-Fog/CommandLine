@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_", "_", "{109F6CE6-AF17-4963-8200-A7DEEF4A39DD}"
+ProjectSection(SolutionItems) = preProject
+	..\.gitattributes = ..\.gitattributes
+	..\.gitignore = ..\.gitignore
+	..\.nuke = ..\.nuke
+	..\build.ps1 = ..\build.ps1
+	..\build.sh = ..\build.sh
+	..\CONTRIBUTING.md = ..\CONTRIBUTING.md
+	..\GitVersion.yml = ..\GitVersion.yml
+	..\LICENSE.txt = ..\LICENSE.txt
+	..\readme.md = ..\readme.md
+EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{F2E52E31-40D3-4D04-964B-10EB9432BA47}"
+ProjectSection(SolutionItems) = preProject
+	..\.github\dependabot.yml = ..\.github\dependabot.yml
+EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_build", "..\build\_build.csproj", "{82B7A55D-BDDE-4B09-B482-4406960D0C1B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{82B7A55D-BDDE-4B09-B482-4406960D0C1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82B7A55D-BDDE-4B09-B482-4406960D0C1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+EndGlobal
