@@ -1,5 +1,6 @@
 // ReSharper disable RedundantUsingDirective
 
+using System;
 using Nuke.Common;
 using Nuke.Common.Execution;
 using Nuke.Common.IO;
@@ -60,7 +61,6 @@ class Build : NukeBuild
                 .SetVersion(OctoVersionInfo.FullSemVer)
                 .EnableNoRestore());
         });
-
 
     Target Test => _ => _
         .DependsOn(Compile)
