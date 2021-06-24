@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFrameworks Condition="!$([MSBuild]::IsOSUnixLike())">net452;netstandard2.0;netcoreapp2.1;netcoreapp3.1;net5.0</TargetFrameworks>
+        <TargetFrameworks Condition="$([MSBuild]::IsOSUnixLike())">netstandard2.0;netcoreapp2.1;netcoreapp3.1;net5.0</TargetFrameworks>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <DebugType>embedded</DebugType>
+        <AssemblyName>Octopus.CommandLine</AssemblyName>
+        <PackageId>Octopus.CommandLine</PackageId>
+        <PackageIcon>icon.png</PackageIcon>
+        <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+        <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+        <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+        <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
+        <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+        <RootNamespace>Octopus.CommandLine</RootNamespace>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+
+        <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+        <Authors>Octopus Deploy Pty. Ltd.</Authors>
+        <Copyright>Copyright © Octopus Deploy 2021</Copyright>
+        <PackageProjectUrl>https://github.com/OctopusDeploy/CommandLine</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/OctopusDeploy/CommandLine</RepositoryUrl>
+        <Description>The command line parsing library used by many of Octopus apps. Supports global and command specific help, json output, auto-complete and more.</Description>
+        <!-- copy dependencies to the output folder (for netstandard) so we can ilmerge them together -->
+        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+        <RuntimeIdentifiers>win-x64;linux-x64;osx-x64</RuntimeIdentifiers>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.DotNet.Analyzers.Compatibility" Version="0.2.12-alpha">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+        <PackageReference Include="Serilog" Version="2.3.0" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="icon.png" Pack="true" PackagePath="\" />
+    </ItemGroup>
+
+</Project>
