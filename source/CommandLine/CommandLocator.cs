@@ -1,19 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using Octopus.CommandLine.Commands;
 
 namespace Octopus.CommandLine
 {
     public class CommandLocator : ICommandLocator
     {
-        private readonly IEnumerable<ICommand> commands;
+        readonly IEnumerable<ICommand> commands;
 
         public CommandLocator(IEnumerable<ICommand> commands)
-        {
-            this.commands = commands;
-        }
+            => this.commands = commands;
 
         public ICommandMetadata[] List()
         {
@@ -49,8 +46,6 @@ namespace Octopus.CommandLine
         }
 
         static string GetFirstArgument(IEnumerable<string> args)
-        {
-            return (args.FirstOrDefault() ?? string.Empty).ToLowerInvariant().TrimStart('-', '/');
-        }
+            => (args.FirstOrDefault() ?? string.Empty).ToLowerInvariant().TrimStart('-', '/');
     }
 }

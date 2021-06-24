@@ -26,12 +26,14 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using System;
+
 namespace Octopus.CommandLine.OptionParsing
 {
     public enum OptionValueType
     {
         None,
         Optional,
-        Required,
+        Required
     }
 }

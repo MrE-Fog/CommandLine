@@ -12,12 +12,10 @@ namespace Octopus.CommandLine.Commands
     public class CompleteCommand : CommandBase
     {
         public const string Name = "complete";
-        private readonly Lazy<ICommandLocator> commandLocator;
+        readonly Lazy<ICommandLocator> commandLocator;
 
         public CompleteCommand(Lazy<ICommandLocator> commandLocator, ICommandOutputProvider commandOutputProvider) : base(commandOutputProvider)
-        {
-            this.commandLocator = commandLocator;
-        }
+            => this.commandLocator = commandLocator;
 
         public override Task Execute(string[] commandLineArguments)
         {
@@ -66,7 +64,7 @@ namespace Octopus.CommandLine.Commands
                 c => c.Name,
                 c =>
                 {
-                    var subCommand = (CommandBase) commandLocator.Value.Find(c.Name);
+                    var subCommand = (CommandBase)commandLocator.Value.Find(c.Name);
                     return subCommand.GetOptionNames().ToArray();
                 });
         }

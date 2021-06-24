@@ -26,6 +26,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using System;
 using System.Collections.Generic;
 using Octopus.CommandLine.Extensions;
 
@@ -34,9 +35,9 @@ namespace Octopus.CommandLine.OptionParsing
     public class Options
     {
         public Options()
-        {
-            OptionSets = new Dictionary<string, OptionSet>();
-        }
+            => OptionSets = new Dictionary<string, OptionSet>();
+
+        public Dictionary<string, OptionSet> OptionSets { get; }
 
         public OptionSet For(string groupName)
         {
@@ -58,7 +59,5 @@ namespace Octopus.CommandLine.OptionParsing
 
             return combined.Parse(arguments);
         }
-
-        public Dictionary<string, OptionSet> OptionSets { get; private set; }
     }
 }

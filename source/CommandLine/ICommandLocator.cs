@@ -1,3 +1,4 @@
+using System;
 using Octopus.CommandLine.Commands;
 
 namespace Octopus.CommandLine

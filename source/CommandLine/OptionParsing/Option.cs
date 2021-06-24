@@ -133,14 +133,22 @@ namespace Octopus.CommandLine.OptionParsing
 {
     public abstract class Option
     {
-        static readonly char[] NameTerminator = {'=', ':'};
+        static readonly char[] NameTerminator = { '=', ':' };
 
         protected Option(string prototype, string description, bool sensitive = false, bool allowsMultiple = false)
-            : this(prototype, description, 1, sensitive, allowsMultiple)
+            : this(prototype,
+                description,
+                1,
+                sensitive,
+                allowsMultiple)
         {
         }
 
-        protected Option(string prototype, string description, int maxValueCount, bool sensitive = false, bool allowsMultiple = false)
+        protected Option(string prototype,
+            string description,
+            int maxValueCount,
+            bool sensitive = false,
+            bool allowsMultiple = false)
         {
             if (prototype == null)
                 throw new ArgumentNullException(nameof(prototype));
@@ -149,9 +157,9 @@ namespace Octopus.CommandLine.OptionParsing
             if (maxValueCount < 0)
                 throw new ArgumentOutOfRangeException(nameof(maxValueCount));
 
-            this.Prototype = prototype;
+            Prototype = prototype;
             Names = prototype.Split('|');
-            this.Description = description;
+            Description = description;
             MaxValueCount = maxValueCount;
             Sensitive = sensitive;
             AllowsMultiple = allowsMultiple;
@@ -167,8 +175,8 @@ namespace Octopus.CommandLine.OptionParsing
                     string.Format("Cannot provide maxValueCount of {0} for OptionValueType.None.", maxValueCount),
                     nameof(maxValueCount));
             if (Array.IndexOf(Names, "<>") >= 0 &&
-                ((Names.Length == 1 && OptionValueType != OptionValueType.None) ||
-                 (Names.Length > 1 && MaxValueCount > 1)))
+                (Names.Length == 1 && OptionValueType != OptionValueType.None ||
+                    Names.Length > 1 && MaxValueCount > 1))
                 throw new ArgumentException(
                     "The default option handler '<>' cannot require values.",
                     nameof(prototype));
@@ -190,34 +198,33 @@ namespace Octopus.CommandLine.OptionParsing
         public abstract Type Type { get; }
 
         public string[] GetNames()
-        {
-            return (string[]) Names.Clone();
-        }
+            => (string[])Names.Clone();
 
         public string[] GetValueSeparators()
         {
             if (ValueSeparators == null)
                 return new string[0];
-            return (string[]) ValueSeparators.Clone();
+            return (string[])ValueSeparators.Clone();
         }
 
         protected static T Parse<T>(string value, OptionContext c)
         {
-            var conv = TypeDescriptor.GetConverter(typeof (T));
+            var conv = TypeDescriptor.GetConverter(typeof(T));
             var t = default(T);
             try
             {
                 if (value != null)
-                    t = (T) conv.ConvertFromString(value);
+                    t = (T)conv.ConvertFromString(value);
             }
-            catch(FormatException) when(typeof(T).IsEnum)
+            catch (FormatException) when (typeof(T).IsEnum)
             {
                 throw new CommandException($"Could not convert string `{value}' to type {typeof(T).Name} for option `{c.OptionName}'. Valid values are {Enum.GetNames(typeof(T)).ReadableJoin()}.");
             }
-            catch(Exception ex) when(!(ex is CommandException))
+            catch (Exception ex) when (!(ex is CommandException))
             {
                 throw new CommandException($"Could not convert string `{value}' to type {typeof(T).Name} for option `{c.OptionName}'.");
             }
+
             return t;
         }
 
@@ -252,7 +259,7 @@ namespace Octopus.CommandLine.OptionParsing
             if (MaxValueCount > 1)
             {
                 if (seps.Count == 0)
-                    ValueSeparators = new[] {":", "="};
+                    ValueSeparators = new[] { ":", "=" };
                 else if (seps.Count == 1 && seps[0].Length == 0)
                     ValueSeparators = null;
                 else
@@ -266,7 +273,6 @@ namespace Octopus.CommandLine.OptionParsing
         {
             var start = -1;
             for (var i = end + 1; i < name.Length; ++i)
-            {
                 switch (name[i])
                 {
                     case '{':
@@ -287,7 +293,7 @@ namespace Octopus.CommandLine.OptionParsing
                             seps.Add(name[i].ToString());
                         break;
                 }
-            }
+
             if (start != -1)
                 throw new ArgumentException(
                     string.Format("Ill-formed name/value separator found in \"{0}\".", name));
@@ -304,8 +310,6 @@ namespace Octopus.CommandLine.OptionParsing
         protected abstract void OnParseComplete(OptionContext c);
 
         public override string ToString()
-        {
-            return Prototype;
-        }
+            => Prototype;
     }
 }

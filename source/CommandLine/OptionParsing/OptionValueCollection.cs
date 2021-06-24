@@ -39,9 +39,30 @@ namespace Octopus.CommandLine.OptionParsing
         readonly List<string> values = new List<string>();
 
         internal OptionValueCollection(OptionContext c)
-        {
-            this.c = c;
-        }
+            => this.c = c;
+
+        #region IEnumerable
+
+        IEnumerator IEnumerable.GetEnumerator()
+            => values.GetEnumerator();
+
+        #endregion
+
+        #region IEnumerable<T>
+
+        public IEnumerator<string> GetEnumerator()
+            => values.GetEnumerator();
+
+        #endregion
+
+        public List<string> ToList()
+            => new List<string>(values);
+
+        public string[] ToArray()
+            => values.ToArray();
+
+        public override string ToString()
+            => string.Join(", ", values.ToArray());
 
         #region ICollection
 
@@ -73,9 +94,7 @@ namespace Octopus.CommandLine.OptionParsing
         }
 
         public bool Contains(string item)
-        {
-            return values.Contains(item);
-        }
+            => values.Contains(item);
 
         public void CopyTo(string[] array, int arrayIndex)
         {
@@ -83,46 +102,20 @@ namespace Octopus.CommandLine.OptionParsing
         }
 
         public bool Remove(string item)
-        {
-            return values.Remove(item);
-        }
-
-        #endregion
-
-        #region IEnumerable
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return values.GetEnumerator();
-        }
-
-        #endregion
-
-        #region IEnumerable<T>
-
-        public IEnumerator<string> GetEnumerator()
-        {
-            return values.GetEnumerator();
-        }
+            => values.Remove(item);
 
         #endregion
 
         #region IList
 
         int IList.Add(object value)
-        {
-            return (values as IList).Add(value);
-        }
+            => (values as IList).Add(value);
 
         bool IList.Contains(object value)
-        {
-            return (values as IList).Contains(value);
-        }
+            => (values as IList).Contains(value);
 
         int IList.IndexOf(object value)
-        {
-            return (values as IList).IndexOf(value);
-        }
+            => (values as IList).IndexOf(value);
 
         void IList.Insert(int index, object value)
         {
@@ -143,8 +136,8 @@ namespace Octopus.CommandLine.OptionParsing
 
         object IList.this[int index]
         {
-            get { return this[index]; }
-            set { (values as IList)[index] = value; }
+            get => this[index];
+            set => (values as IList)[index] = value;
         }
 
         #endregion
@@ -152,9 +145,7 @@ namespace Octopus.CommandLine.OptionParsing
         #region IList<T>
 
         public int IndexOf(string item)
-        {
-            return values.IndexOf(item);
-        }
+            => values.IndexOf(item);
 
         public void Insert(int index, string item)
         {
@@ -173,7 +164,7 @@ namespace Octopus.CommandLine.OptionParsing
                 AssertValid(index);
                 return index >= values.Count ? null : values[index];
             }
-            set { values[index] = value; }
+            set => values[index] = value;
         }
 
         void AssertValid(int index)
@@ -188,20 +179,5 @@ namespace Octopus.CommandLine.OptionParsing
         }
 
         #endregion
-
-        public List<string> ToList()
-        {
-            return new List<string>(values);
-        }
-
-        public string[] ToArray()
-        {
-            return values.ToArray();
-        }
-
-        public override string ToString()
-        {
-            return string.Join(", ", values.ToArray());
-        }
     }
 }

@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -11,8 +10,24 @@ namespace Octopus.CommandLine.ShellCompletion
 {
     public class BashCompletionInstaller : ShellCompletionInstaller
     {
+        public BashCompletionInstaller(ICommandOutputProvider commandOutputProvider)
+            : this(commandOutputProvider, new OctopusFileSystem(), new[] { AssemblyExtensions.GetExecutablePath() })
+        {
+        }
+
+        public BashCompletionInstaller(ICommandOutputProvider commandOutputProvider, string[] executablePaths)
+            : this(commandOutputProvider, new OctopusFileSystem(), executablePaths)
+        {
+        }
+
+        public BashCompletionInstaller(ICommandOutputProvider commandOutputProvider, IOctopusFileSystem fileSystem, string[] executablePaths)
+            : base(commandOutputProvider, fileSystem, executablePaths)
+        {
+        }
+
         public override SupportedShell SupportedShell => SupportedShell.Bash;
         public override string ProfileLocation => $"{HomeLocation}/.bashrc";
+
         public override string ProfileScript
         {
             get
@@ -32,17 +47,6 @@ namespace Octopus.CommandLine.ShellCompletion
 
                 return result.ToString().NormalizeNewLinesForNix();
             }
-        }
-
-        public BashCompletionInstaller(ICommandOutputProvider commandOutputProvider)
-            : this(commandOutputProvider, new OctopusFileSystem(), new[] { AssemblyExtensions.GetExecutablePath() }) { }
-
-        public BashCompletionInstaller(ICommandOutputProvider commandOutputProvider, string[] executablePaths)
-            : this(commandOutputProvider, new OctopusFileSystem(), executablePaths) { }
-
-        public BashCompletionInstaller(ICommandOutputProvider commandOutputProvider, IOctopusFileSystem fileSystem, string[] executablePaths)
-            : base(commandOutputProvider, fileSystem, executablePaths)
-        {
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Octopus.CommandLine.Extensions
 {
-    internal static class Humanize
+    static class Humanize
     {
         public static string ReadableJoin<T>(this IEnumerable<T> list, string junction = "and")
         {
@@ -24,6 +24,7 @@ namespace Octopus.CommandLine.Extensions
                     separator = ", ";
                     final = " " + junction + " ";
                 }
+
                 prev = enumerator.Current;
             }
 
@@ -35,6 +36,5 @@ namespace Octopus.CommandLine.Extensions
 
             return result.ToString();
         }
-
     }
 }

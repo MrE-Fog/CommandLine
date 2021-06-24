@@ -26,13 +26,15 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using System;
+
 namespace Octopus.CommandLine.OptionParsing
 {
     public class OptionContext
     {
         public OptionContext(OptionSet set)
         {
-            this.OptionSet = set;
+            OptionSet = set;
             OptionValues = new OptionValueCollection(this);
         }
 

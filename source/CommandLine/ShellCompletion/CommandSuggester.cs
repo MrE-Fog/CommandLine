@@ -80,10 +80,8 @@ namespace Octopus.CommandLine.ShellCompletion
         }
 
         static IEnumerable<string> GetBaseOptionSuggestions(IReadOnlyDictionary<string, string[]> completionItems, string searchTerm)
-        {
             // If you type 'exename', you'll be redirected to the 'help' command, so show these options
-            return GetSubCommandOptionSuggestions(completionItems, "help", searchTerm);
-        }
+            => GetSubCommandOptionSuggestions(completionItems, "help", searchTerm);
 
         static bool IsSubCommand(string arg, List<string> subCommandList)
         {

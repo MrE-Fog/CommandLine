@@ -7,29 +7,20 @@ namespace Octopus.CommandLine.Plumbing
     class OctopusFileSystem : IOctopusFileSystem
     {
         public bool FileExists(string path)
-        {
-            return File.Exists(path);
-        }
+            => File.Exists(path);
 
         public string ReadAllText(string path)
-        {
-            return File.ReadAllText(path);
-        }
+            => File.ReadAllText(path);
 
         public void CopyFile(string sourceFile, string targetFile, int overwriteFileRetryAttempts = 3)
         {
             for (var i = 0; i < overwriteFileRetryAttempts; i++)
-            {
                 try
                 {
-                    FileInfo fi = new FileInfo(targetFile);
+                    var fi = new FileInfo(targetFile);
                     if (fi.Exists)
-                    {
                         if ((fi.Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
-                        {
                             fi.Attributes = fi.Attributes & ~FileAttributes.ReadOnly;
-                        }
-                    }
                     File.Copy(sourceFile, targetFile, true);
                     return;
                 }
@@ -37,9 +28,9 @@ namespace Octopus.CommandLine.Plumbing
                 {
                     if (i == overwriteFileRetryAttempts - 1)
                         throw;
-                    Thread.Sleep(1000 + (2000 * i));
+                    Thread.Sleep(1000 + 2000 * i);
                 }
-            }
+
             throw new Exception("Internal error, cannot get here");
         }
 

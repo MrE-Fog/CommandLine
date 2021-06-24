@@ -11,9 +11,7 @@ namespace Octopus.CommandLine.Commands
         readonly Lazy<ICommandLocator> commands;
 
         public HelpCommand(Lazy<ICommandLocator> commands, ICommandOutputProvider commandOutputProvider) : base(commandOutputProvider)
-        {
-            this.commands = commands;
-        }
+            => this.commands = commands;
 
         public override Task Execute(string[] commandLineArguments)
         {
@@ -67,9 +65,7 @@ namespace Octopus.CommandLine.Commands
         }
 
         public Task Request()
-        {
-            return Task.WhenAny();
-        }
+            => Task.WhenAny();
 
         public void PrintDefaultOutput()
         {
@@ -103,12 +99,13 @@ namespace Octopus.CommandLine.Commands
 
         public void PrintJsonOutput()
         {
-            commandOutputProvider.Json(commands.Value.List().Select(x => new
-            {
-                x.Name,
-                x.Description,
-                x.Aliases
-            }));
+            commandOutputProvider.Json(commands.Value.List()
+                .Select(x => new
+                {
+                    x.Name,
+                    x.Description,
+                    x.Aliases
+                }));
         }
     }
 }

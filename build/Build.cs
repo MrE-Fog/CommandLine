@@ -1,5 +1,6 @@
 // ReSharper disable RedundantUsingDirective
 
+using System;
 using System.IO;
 using System.Linq;
 using Nuke.Common;
@@ -127,7 +128,6 @@ class Build : NukeBuild
             var nuspecPath = OctopusCommandLineFolder / nuspec;
             try
             {
-
                 ReplaceTextInFiles(nuspecPath, "<version>$version$</version>", $"<version>{OctoVersionInfo.FullSemVer}</version>");
                 ReplaceTextInFiles(nuspecPath, "\\$configuration$\\", $"\\{Configuration.ToString()}\\");
 
@@ -135,7 +135,7 @@ class Build : NukeBuild
                     .SetProject(Solution)
                     .SetProcessArgumentConfigurator(args =>
                     {
-                        args.Add($"/p:NuspecFile=" + nuspec);
+                        args.Add("/p:NuspecFile=" + nuspec);
                         return args;
                     })
                     .SetVersion(OctoVersionInfo.FullSemVer)
@@ -145,7 +145,7 @@ class Build : NukeBuild
             }
             finally
             {
-                ReplaceTextInFiles(nuspecPath, $"<version>{OctoVersionInfo.FullSemVer}</version>", $"<version>$version$</version>");
+                ReplaceTextInFiles(nuspecPath, $"<version>{OctoVersionInfo.FullSemVer}</version>", "<version>$version$</version>");
                 ReplaceTextInFiles(nuspecPath, $"\\{Configuration.ToString()}\\", "\\$configuration$\\");
             }
         });

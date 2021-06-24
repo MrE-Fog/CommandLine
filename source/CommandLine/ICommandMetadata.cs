@@ -1,3 +1,5 @@
+using System;
+
 namespace Octopus.CommandLine
 {
     public interface ICommandMetadata

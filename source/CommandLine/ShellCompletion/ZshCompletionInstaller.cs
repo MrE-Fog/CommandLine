@@ -1,4 +1,4 @@
-
+using System;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -10,8 +10,24 @@ namespace Octopus.CommandLine.ShellCompletion
 {
     public class ZshCompletionInstaller : ShellCompletionInstaller
     {
+        public ZshCompletionInstaller(ICommandOutputProvider commandOutputProvider)
+            : this(commandOutputProvider, new OctopusFileSystem(), new[] { AssemblyExtensions.GetExecutablePath() })
+        {
+        }
+
+        public ZshCompletionInstaller(ICommandOutputProvider commandOutputProvider, string[] executablePaths)
+            : this(commandOutputProvider, new OctopusFileSystem(), executablePaths)
+        {
+        }
+
+        public ZshCompletionInstaller(ICommandOutputProvider commandOutputProvider, IOctopusFileSystem fileSystem, string[] executablePaths)
+            : base(commandOutputProvider, fileSystem, executablePaths)
+        {
+        }
+
         public override SupportedShell SupportedShell => SupportedShell.Zsh;
         public override string ProfileLocation => $"{HomeLocation}/.zshrc";
+
         public override string ProfileScript
         {
             get
@@ -29,17 +45,6 @@ namespace Octopus.CommandLine.ShellCompletion
 
                 return result.ToString().NormalizeNewLinesForNix();
             }
-        }
-
-        public ZshCompletionInstaller(ICommandOutputProvider commandOutputProvider)
-            : this(commandOutputProvider, new OctopusFileSystem(), new[] { AssemblyExtensions.GetExecutablePath() }) { }
-
-        public ZshCompletionInstaller(ICommandOutputProvider commandOutputProvider, string[] executablePaths)
-            : this(commandOutputProvider, new OctopusFileSystem(), executablePaths) { }
-
-        public ZshCompletionInstaller(ICommandOutputProvider commandOutputProvider, IOctopusFileSystem fileSystem, string[] executablePaths)
-            : base(commandOutputProvider, fileSystem, executablePaths)
-        {
         }
     }
 }

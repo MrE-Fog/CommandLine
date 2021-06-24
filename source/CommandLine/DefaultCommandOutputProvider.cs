@@ -1,6 +1,5 @@
 using System;
 using System.Reflection;
-using Newtonsoft.Json;
 using Serilog;
 
 namespace Octopus.CommandLine
@@ -10,9 +9,7 @@ namespace Octopus.CommandLine
         readonly string applicationName;
 
         public DefaultCommandOutputProvider(string applicationName, ILogger logger) : base(logger)
-        {
-            this.applicationName = applicationName;
-        }
+            => this.applicationName = applicationName;
 
         protected override string GetAppName() => applicationName;
 

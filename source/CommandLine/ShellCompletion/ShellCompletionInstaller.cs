@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -9,21 +10,25 @@ namespace Octopus.CommandLine.ShellCompletion
 {
     public abstract class ShellCompletionInstaller : IShellCompletionInstaller
     {
-        private readonly ICommandOutputProvider commandOutputProvider;
-        private readonly IOctopusFileSystem fileSystem;
+        readonly ICommandOutputProvider commandOutputProvider;
+        readonly IOctopusFileSystem fileSystem;
         protected readonly string[] ExecutablePaths;
-        public static string HomeLocation => System.Environment.GetEnvironmentVariable("HOME");
-        public abstract string ProfileLocation { get; }
-        public abstract string ProfileScript { get; }
-        public abstract SupportedShell SupportedShell { get; }
 
         public ShellCompletionInstaller(ICommandOutputProvider commandOutputProvider, IOctopusFileSystem fileSystem, string[] executablePaths)
         {
             this.commandOutputProvider = commandOutputProvider;
             this.fileSystem = fileSystem;
             //some DI containers will pass an empty array, instead of choosing a less specific ctor that doesn't require the missing param
-            this.ExecutablePaths = executablePaths.Length == 0 ? new[] { AssemblyExtensions.GetExecutablePath() } : executablePaths;
+            ExecutablePaths = executablePaths.Length == 0 ? new[] { AssemblyExtensions.GetExecutablePath() } : executablePaths;
         }
+
+        public static string HomeLocation => Environment.GetEnvironmentVariable("HOME");
+        public abstract string ProfileLocation { get; }
+        public abstract string ProfileScript { get; }
+        public abstract SupportedShell SupportedShell { get; }
+
+        public string AllShellsPrefix => $"# start: Octopus Command Line App ({Path.GetFileName(ExecutablePaths.First())}) Autocomplete script";
+        public string AllShellsSuffix => $"# end: Octopus Command Line App ({Path.GetFileName(ExecutablePaths.First())}) Autocomplete script";
 
         public virtual void Install(bool dryRun)
         {
@@ -70,8 +75,5 @@ namespace Octopus.CommandLine.ShellCompletion
                 commandOutputProvider.Warning("All Done! Please reload your shell or dot source your profile to get started! Use the <tab> key to autocomplete.");
             }
         }
-
-        public string AllShellsPrefix => $"# start: Octopus Command Line App ({Path.GetFileName(ExecutablePaths.First())}) Autocomplete script";
-        public string AllShellsSuffix => $"# end: Octopus Command Line App ({Path.GetFileName(ExecutablePaths.First())}) Autocomplete script";
     }
 }

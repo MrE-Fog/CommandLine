@@ -8,6 +8,11 @@ namespace Octopus.CommandLine.ShellCompletion
 {
     public abstract class PowershellCompletionInstallerBase : ShellCompletionInstaller
     {
+        protected PowershellCompletionInstallerBase(ICommandOutputProvider commandOutputProvider, IOctopusFileSystem fileSystem, string[] executablePaths)
+            : base(commandOutputProvider, fileSystem, executablePaths)
+        {
+        }
+
         protected static string PowershellProfileFilename => "Microsoft.PowerShell_profile.ps1";
 
         public override string ProfileScript
@@ -31,8 +36,5 @@ namespace Octopus.CommandLine.ShellCompletion
                 return results.ToString();
             }
         }
-
-        protected PowershellCompletionInstallerBase(ICommandOutputProvider commandOutputProvider, IOctopusFileSystem fileSystem, string[] executablePaths)
-            : base(commandOutputProvider, fileSystem, executablePaths) { }
     }
 }

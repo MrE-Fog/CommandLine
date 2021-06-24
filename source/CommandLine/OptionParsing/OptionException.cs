@@ -38,15 +38,11 @@ namespace Octopus.CommandLine.OptionParsing
 
         public OptionException(string message, string optionName)
             : base(message)
-        {
-            OptionName = optionName;
-        }
+            => OptionName = optionName;
 
         public OptionException(string message, string optionName, Exception innerException)
             : base(message, innerException)
-        {
-            OptionName = optionName;
-        }
+            => OptionName = optionName;
 
         public string OptionName { get; }
     }
