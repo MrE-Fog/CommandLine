@@ -39,7 +39,7 @@ namespace Octopus.CommandLine.Commands
 
         public virtual void GetHelp(TextWriter writer, string[] args)
         {
-            var executable = AssemblyExtensions.GetExecutableName();
+            var executable = AssemblyHelper.GetExecutableName();
             string commandName;
             var description = string.Empty;
             if (CommandMetadata == null)

@@ -19,7 +19,7 @@ namespace Octopus.CommandLine.ShellCompletion
             this.commandOutputProvider = commandOutputProvider;
             this.fileSystem = fileSystem;
             //some DI containers will pass an empty array, instead of choosing a less specific ctor that doesn't require the missing param
-            ExecutablePaths = executablePaths.Length == 0 ? new[] { AssemblyExtensions.GetExecutablePath() } : executablePaths;
+            ExecutablePaths = executablePaths.Length == 0 ? new[] { AssemblyHelper.GetExecutablePath() } : executablePaths;
         }
 
         public static string HomeLocation => Environment.GetEnvironmentVariable("HOME");

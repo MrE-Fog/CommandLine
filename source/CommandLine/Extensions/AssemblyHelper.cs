@@ -4,7 +4,7 @@ using System.IO;
 
 namespace Octopus.CommandLine.Extensions
 {
-    public static class AssemblyExtensions
+    public static class AssemblyHelper
     {
         public static string GetExecutablePath()
             => Process.GetCurrentProcess()?.MainModule?.FileName ?? throw new ApplicationException("Unable to determine executable name");

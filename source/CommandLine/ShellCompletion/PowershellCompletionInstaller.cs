@@ -9,7 +9,7 @@ namespace Octopus.CommandLine.ShellCompletion
     public class PowershellCompletionInstaller : PowershellCompletionInstallerBase
     {
         public PowershellCompletionInstaller(ICommandOutputProvider commandOutputProvider)
-            : this(commandOutputProvider, new OctopusFileSystem(), new[] { AssemblyExtensions.GetExecutablePath() })
+            : this(commandOutputProvider, new OctopusFileSystem(), new[] { AssemblyHelper.GetExecutablePath() })
         {
         }
 

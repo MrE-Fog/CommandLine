@@ -11,7 +11,7 @@ namespace Octopus.CommandLine.ShellCompletion
     public class BashCompletionInstaller : ShellCompletionInstaller
     {
         public BashCompletionInstaller(ICommandOutputProvider commandOutputProvider)
-            : this(commandOutputProvider, new OctopusFileSystem(), new[] { AssemblyExtensions.GetExecutablePath() })
+            : this(commandOutputProvider, new OctopusFileSystem(), new[] { AssemblyHelper.GetExecutablePath() })
         {
         }
 

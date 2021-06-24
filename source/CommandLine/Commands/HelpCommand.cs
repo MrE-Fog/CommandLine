@@ -69,7 +69,7 @@ namespace Octopus.CommandLine.Commands
 
         public void PrintDefaultOutput()
         {
-            var executable = AssemblyExtensions.GetExecutableName();
+            var executable = AssemblyHelper.GetExecutableName();
 
             Console.ResetColor();
             commandOutputProvider.PrintHeader();

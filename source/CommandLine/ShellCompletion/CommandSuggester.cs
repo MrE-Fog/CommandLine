@@ -13,7 +13,7 @@ namespace Octopus.CommandLine.ShellCompletion
             string[] words,
             IReadOnlyDictionary<string, string[]> completionItems)
         {
-            var executablePath = AssemblyExtensions.GetExecutablePath();
+            var executablePath = AssemblyHelper.GetExecutablePath();
             var exeName = Path.GetFileNameWithoutExtension(executablePath);
             var exeNameWithoutExtension = Path.GetFileNameWithoutExtension(executablePath);
             // some shells will pass the command name as invoked on the command line.
