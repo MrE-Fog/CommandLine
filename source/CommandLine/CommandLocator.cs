@@ -36,7 +36,11 @@ namespace Octopus.CommandLine
             var first = GetFirstArgument(args);
 
             if (string.IsNullOrWhiteSpace(first))
-                return Find("help");
+            {
+                // if help is unavailable, it means the registration of commands is messed up, and HelpCommand wasn't available
+                return Find("help") ?? throw new CommandException($"Error: No 'help' command found. Help is unavailable.{Environment.NewLine}"
+                    + $"Developers - please ensure that all implementations of {nameof(ICommand)} within the CommandLine library are registered.");
+            }
 
             var command = Find(first);
             if (command == null)

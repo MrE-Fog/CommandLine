@@ -41,7 +41,7 @@ private static IContainer BuildContainer()
         .AsImplementedInterfaces()
         .AsSelf();
         
-    //register the command locator and other in-built commands
+    //register the command locator and other in-built commands (such as help, and the auto complete commands)
     builder.RegisterType<CommandLocator>().As<ICommandLocator>();
     builder.RegisterAssemblyTypes(typeof(ICommand).Assembly).As<ICommand>().AsSelf();
 
