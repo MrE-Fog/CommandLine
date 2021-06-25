@@ -8,6 +8,15 @@ using Octopus.CommandLine.Plumbing;
 
 namespace Octopus.CommandLine.ShellCompletion
 {
+    public enum SupportedShell
+    {
+        Unspecified,
+        Pwsh,
+        Zsh,
+        Bash,
+        Powershell
+    }
+
     public abstract class ShellCompletionInstaller : IShellCompletionInstaller
     {
         readonly ICommandOutputProvider commandOutputProvider;
