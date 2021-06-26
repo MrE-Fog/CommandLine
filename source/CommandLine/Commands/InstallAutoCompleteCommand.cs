@@ -19,7 +19,7 @@ namespace Octopus.CommandLine.Commands
             if (!this.installers.Any())
             {
                 var message = $"Error: No shell completion installers found. Auto-complete installation is unavailable.{Environment.NewLine}" +
-                              $"Developers - please ensure that all implementations of {nameof(IShellCompletionInstaller)} within the CommandLine library are registered.";
+                    $"Developers - please ensure that all implementations of {nameof(IShellCompletionInstaller)} within the CommandLine library are registered.";
                 throw new CommandException(message);
             }
 

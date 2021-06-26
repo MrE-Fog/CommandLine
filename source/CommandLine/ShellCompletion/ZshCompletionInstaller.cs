@@ -2,7 +2,6 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Octopus.CommandLine.Commands;
 using Octopus.CommandLine.Extensions;
 using Octopus.CommandLine.Plumbing;
 

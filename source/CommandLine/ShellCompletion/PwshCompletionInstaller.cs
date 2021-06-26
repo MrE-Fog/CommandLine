@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using Octopus.CommandLine.Commands;
 using Octopus.CommandLine.Extensions;
 using Octopus.CommandLine.Plumbing;
 
