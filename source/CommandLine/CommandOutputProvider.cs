@@ -9,12 +9,24 @@ using Serilog.Events;
 
 namespace Octopus.CommandLine
 {
-    public abstract class CommandOutputProviderBase : ICommandOutputProvider
+    public class CommandOutputProvider : ICommandOutputProvider
     {
+        public string applicationVersion { get; }
         readonly ILogger logger;
 
-        protected CommandOutputProviderBase(ILogger logger)
+        readonly string applicationName;
+        readonly ICommandOutputJsonSerializer commandOutputJsonSerializer;
+
+        public CommandOutputProvider(string applicationName, string applicationVersion, ILogger logger)
+            : this(applicationName, applicationVersion, new DefaultCommandOutputJsonSerializer(), logger)
         {
+        }
+
+        public CommandOutputProvider(string applicationName, string applicationVersion, ICommandOutputJsonSerializer commandOutputJsonSerializer, ILogger logger)
+        {
+            this.applicationVersion = applicationVersion;
+            this.applicationName = applicationName;
+            this.commandOutputJsonSerializer = commandOutputJsonSerializer;
             this.logger = logger;
             PrintMessages = true; // unless told otherwise
         }
@@ -25,13 +37,10 @@ namespace Octopus.CommandLine
         {
             if (PrintMessages)
             {
-                logger.Information($"{GetAppName()}, version {GetAppVersion()}");
+                logger.Information($"{applicationName}, version {applicationVersion}");
                 logger.Information(string.Empty);
             }
         }
-
-        protected abstract string GetAppName();
-        protected abstract string GetAppVersion();
 
         public void PrintCommandHelpHeader(string executable, string commandName, string description, TextWriter textWriter)
         {
@@ -88,10 +97,8 @@ namespace Octopus.CommandLine
 
         public void Json(object o)
         {
-            logger.Information(SerializeObjectToJson(o));
+            logger.Information(commandOutputJsonSerializer.SerializeObjectToJson(o));
         }
-
-        protected abstract string SerializeObjectToJson(object o);
 
         public void Json(object o, TextWriter writer)
         {
@@ -133,5 +140,6 @@ namespace Octopus.CommandLine
             if (PrintMessages)
                 logger.Error(ex, messageTemplate);
         }
+
     }
 }
