@@ -7,7 +7,6 @@ using NUnit.Framework;
 using Octopus.CommandLine;
 using Octopus.CommandLine.Commands;
 using Serilog;
-using Tests.Helpers;
 
 namespace Tests.Commands
 {

@@ -11,7 +11,6 @@ namespace Octopus.CommandLine
 {
     public class CommandOutputProvider : ICommandOutputProvider
     {
-        public string applicationVersion { get; }
         readonly ILogger logger;
 
         readonly string applicationName;
@@ -30,6 +29,8 @@ namespace Octopus.CommandLine
             this.logger = logger;
             PrintMessages = true; // unless told otherwise
         }
+
+        public string applicationVersion { get; }
 
         public bool PrintMessages { get; set; }
 
@@ -140,6 +141,5 @@ namespace Octopus.CommandLine
             if (PrintMessages)
                 logger.Error(ex, messageTemplate);
         }
-
     }
 }
