@@ -3,6 +3,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using JetBrains.Annotations;
 using Nuke.Common;
 using Nuke.Common.Execution;
 using Nuke.Common.IO;
@@ -10,11 +11,11 @@ using Nuke.Common.ProjectModel;
 using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.ILRepack;
+using Nuke.Common.Tools.OctoVersion;
 using Nuke.Common.Utilities.Collections;
-using OctoVersion.Core;
+using Serilog;
 using static Nuke.Common.IO.FileSystemTasks;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
-using Nuke.OctoVersion;
 
 [CheckBuildProjectConfigurations]
 [UnsetVisualStudioEnvironmentVariables]
@@ -24,8 +25,19 @@ class Build : NukeBuild
 
     [Solution(GenerateProjects = true)] readonly Solution Solution;
 
-    [NukeOctoVersion] readonly OctoVersionInfo OctoVersionInfo;
+    [Parameter(
+        "Whether to auto-detect the branch name - this is okay for a local build, but should not be used under CI.")]
+    readonly bool AutoDetectBranch = IsLocalBuild;
 
+    [Parameter(
+        "Branch name for OctoVersion to use to calculate the version number. Can be set via the environment variable OCTOVERSION_CurrentBranch.",
+        Name = "OCTOVERSION_CurrentBranch")]
+    readonly string BranchName;
+
+    [OctoVersion(UpdateBuildNumber = true, BranchParameter = nameof(BranchName),
+        AutoDetectBranchParameter = nameof(AutoDetectBranch), Framework = "net6.0")]
+    readonly OctoVersionInfo OctoVersionInfo;
+    
     AbsolutePath SourceDirectory => RootDirectory / "source";
     AbsolutePath ArtifactsDirectory => RootDirectory / "artifacts";
     AbsolutePath LocalPackagesDirectory => RootDirectory / ".." / "LocalPackages";
@@ -39,10 +51,11 @@ class Build : NukeBuild
             EnsureCleanDirectory(ArtifactsDirectory);
         });
 
+    [PublicAPI]
     Target CalculateVersion => _ => _
         .Executes(() =>
         {
-            //all the magic happens inside `[NukeOctoVersion]` above. we just need a target for TeamCity to call
+            //all the magic happens inside `[OctoVersion]` above. we just need a target for TeamCity to call
         });
 
     Target Restore => _ => _
@@ -58,7 +71,7 @@ class Build : NukeBuild
         .DependsOn(Restore)
         .Executes(() =>
         {
-            Logger.Info("Building {0} v{1}", Solution.Name, OctoVersionInfo.FullSemVer);
+            Log.Information("Building {0} v{1}", Solution.Name, OctoVersionInfo.FullSemVer);
 
             DotNetBuild(_ => _
                 .SetProjectFile(Solution)
@@ -144,6 +157,7 @@ class Build : NukeBuild
             }
         });
 
+    [UsedImplicitly]
     Target CopyToLocalPackages => _ => _
         .OnlyWhenStatic(() => IsLocalBuild)
         .TriggeredBy(Pack)
